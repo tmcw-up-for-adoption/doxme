@@ -1,0 +1,23 @@
+{
+  "name": "doxme",
+  "version": "1.0.0",
+  "description": "create markdown docs for dox output",
+  "main": "index.js",
+  "bin": {
+    "doxme": "doxme"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "dox",
+    "markdown",
+    "documentation"
+  ],
+  "author": "Tom MacWright",
+  "license": "ISC",
+  "dependencies": {
+    "concat-stream": "^1.4.7",
+    "striptags": "^1.0.0"
+  }
+}

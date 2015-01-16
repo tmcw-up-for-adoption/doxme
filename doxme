@@ -1,0 +1,41 @@
+#!/usr/bin/env node
+
+var concat = require('concat-stream'),
+    striptags = require('striptags');
+
+process.stdin.pipe(concat(function(json) {
+    var data = JSON.parse(json);
+    data.forEach(function(d) {
+        var alias, returns;
+        if (alias = getTag(d.tags, 'alias')) {
+            var args = getTags(d.tags, 'param').map(function(p) {
+                return p.name;
+            }).join(', ');
+            console.log('## %s(%s)\n', alias.string, args);
+            if (d.description) {
+                console.log('%s\n', reformat(d.description.full));
+            }
+
+            getTags(d.tags, 'param').forEach(function(p) {
+                console.log('* `%s` (`%s`): %s', p.name, p.types.join(','), striptags(p.description));
+                // console.log(p);
+            });
+
+            if (returns = getTag(d.tags, 'returns')) {
+                console.log('\n**Returns** `%s`, %s', returns.types.join(','), reformat(returns.description));
+            }
+        }
+    });
+}));
+
+function getTags(tags, type) {
+    return tags.filter(function(t) { return t.type === type; });
+}
+
+function getTag(tags, type) {
+    return tags.filter(function(t) { return t.type === type; })[0];
+}
+
+function reformat(str) {
+    return striptags(str.replace('<br />', ' '));
+}
