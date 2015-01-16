@@ -19,5 +19,9 @@
   "dependencies": {
     "concat-stream": "^1.4.7",
     "striptags": "^1.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:tmcw/doxme.git"
   }
 }
