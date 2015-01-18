@@ -11,3 +11,7 @@ and writes Markdown to stdout.
 ## use
 
     dox < index.js | doxme
+
+## examples
+
+* [tile-cover documentation](https://github.com/mapbox/tile-cover#api)
