@@ -15,3 +15,4 @@ and writes Markdown to stdout.
 ## examples
 
 * [tile-cover documentation](https://github.com/mapbox/tile-cover#api)
+* [geojson-random documentation](https://github.com/Turfjs/turf-random#api)
