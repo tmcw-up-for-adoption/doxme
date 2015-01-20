@@ -7,9 +7,14 @@ process.stdin.pipe(concat(function(json) {
     var data = JSON.parse(json);
     data.forEach(function(d) {
         var alias, returns;
-        var name = '';
-        if (alias = getTag(d.tags, 'alias')) name = alias.string;
-        else name = d.ctx && d.ctx.name;
+        var name = '', mod;
+        if (alias = getTag(d.tags, 'alias')) {
+            name = alias.string;
+        } else if (mod = getTag(d.tags, 'module')) {
+            name = mod.string;
+        } else {
+            name = d.ctx && d.ctx.name;
+        }
         if (name !== '') {
             var args = getTags(d.tags, 'param').map(function(p) {
                 return p.name;
