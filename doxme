@@ -7,11 +7,14 @@ process.stdin.pipe(concat(function(json) {
     var data = JSON.parse(json);
     data.forEach(function(d) {
         var alias, returns;
-        if (alias = getTag(d.tags, 'alias')) {
+        var name = '';
+        if (alias = getTag(d.tags, 'alias')) name = alias.string;
+        else name = d.ctx && d.ctx.name;
+        if (name !== '') {
             var args = getTags(d.tags, 'param').map(function(p) {
                 return p.name;
             }).join(', ');
-            console.log('## %s(%s)\n', alias.string, args);
+            console.log('\n## %s(%s)\n', name, args);
             if (d.description) {
                 console.log('%s\n', reformat(d.description.full));
             }
@@ -21,8 +24,12 @@ process.stdin.pipe(concat(function(json) {
                 // console.log(p);
             });
 
+            getTags(d.tags, 'example').forEach(function(p) {
+                console.log('\n```js\n%s\n```\n', p.string);
+            });
+
             if (returns = getTag(d.tags, 'returns')) {
-                console.log('\n**Returns** `%s`, %s', returns.types.join(','), reformat(returns.description));
+                console.log('\n**Returns** `%s`, %s\n', returns.types.join(','), reformat(returns.description));
             }
         }
     });
