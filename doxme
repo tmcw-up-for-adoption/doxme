@@ -11,7 +11,7 @@ process.stdin.pipe(concat(function(json) {
         if (alias = getTag(d.tags, 'alias')) {
             name = alias.string;
         } else if (mod = getTag(d.tags, 'module')) {
-            name = mod.string;
+            name = mod.string.replace('/', '.');
         } else {
             name = d.ctx && d.ctx.name;
         }
@@ -19,7 +19,7 @@ process.stdin.pipe(concat(function(json) {
             var args = getTags(d.tags, 'param').map(function(p) {
                 return p.name;
             }).join(', ');
-            console.log('\n## %s(%s)\n', name, args);
+            console.log('\n### `%s(%s)`\n', name, args);
             if (d.description) {
                 console.log('%s\n', reformat(d.description.full));
             }
