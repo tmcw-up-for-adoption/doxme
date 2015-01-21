@@ -1,8 +1,9 @@
 # doxme
 
+[![build status](https://secure.travis-ci.org/tmcw/doxme.png)](http://travis-ci.org/tmcw/doxme)
+
 create markdown docs for dox output
 
-[![build status](https://secure.travis-ci.org/tmcw/doxme.png)](http://travis-ci.org/tmcw/doxme)
 
 ### `doxme`
 
