@@ -5,7 +5,7 @@
 create markdown docs for dox output
 
 
-### `doxme`
+### `doxme([example="foo"])`
 
 A [Markdown](http://daringfireball.net/projects/markdown/) formatter
 for [dox](https://github.com/tj/dox). Takes dox's JSON output as stdin
@@ -15,6 +15,20 @@ and writes Markdown to stdout.
 
     dox -r < index.js | doxme
 
+
+### Parameters
+
+| parameter         | type   | description                                   |
+| ----------------- | ------ | --------------------------------------------- |
+| `[example="foo"]` | String | _optional:_ this is just an example parameter |
+
+
+### Example
+
+```js
+// this is just an example example
+var foo = 2 * 2;
+```
 
 ## Installation
 

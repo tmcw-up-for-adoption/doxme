@@ -2,6 +2,7 @@
 
 var concat = require('concat-stream'),
     striptags = require('striptags'),
+    table = require('markdown-table'),
     argv = require('minimist')(process.argv.slice(1)),
     fs = require('fs');
 
@@ -15,6 +16,10 @@ var concat = require('concat-stream'),
  *     dox -r < index.js | doxme
  *
  * @module doxme
+ * @param {String} [example="foo"] this is just an example parameter
+ * @example
+ * // this is just an example example
+ * var foo = 2 * 2;
  */
 process.stdin.pipe(concat(function(json) {
     var pkg;
@@ -59,14 +64,28 @@ process.stdin.pipe(concat(function(json) {
                 console.log('%s\n', reformat(d.description.full));
             }
 
-            getTags(d.tags, 'param').forEach(function(p) {
-                console.log('* `%s` (`%s`): %s', p.name, p.types.join(','), striptags(p.description));
-                // console.log(p);
-            });
+            var params = getTags(d.tags, 'param');
 
-            getTags(d.tags, 'example').forEach(function(p) {
-                console.log('\n```js\n%s\n```\n', p.string);
-            });
+            if (params.length) {
+                console.log('### Parameters\n');
+                console.log(table(
+                    [['parameter', 'type', 'description']]
+                        .concat(params.map(function(p) {
+                            return ['`' + p.name + '`', p.types.join(','),
+                                (p.optional ? '_optional:_ ' : '') + 
+                                striptags(p.description)];
+                        }))
+                ));
+                console.log('\n');
+            }
+
+            var examples = getTags(d.tags, 'example');
+            if (examples.length) {
+                console.log('### Example');
+                examples.forEach(function(p) {
+                    console.log('\n```js\n%s\n```\n', p.string);
+                });
+            }
 
             if (returns = getTag(d.tags, 'returns')) {
                 console.log('\n**Returns** `%s`, %s\n', returns.types.join(','), reformat(returns.description));
