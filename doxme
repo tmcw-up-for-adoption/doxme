@@ -94,5 +94,5 @@ function getTag(tags, type) {
 }
 
 function reformat(str) {
-    return striptags(str.replace('<br />', ' '));
+    return striptags(str.replace('<br />', ' ').replace(/{\@\w+\s*([^}]+)\s*}/, '$1'));
 }
