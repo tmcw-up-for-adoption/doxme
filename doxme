@@ -1,9 +1,40 @@
 #!/usr/bin/env node
 
 var concat = require('concat-stream'),
-    striptags = require('striptags');
+    striptags = require('striptags'),
+    argv = require('minimist')(process.argv.slice(1)),
+    fs = require('fs');
 
+/**
+ * A [Markdown](http://daringfireball.net/projects/markdown/) formatter
+ * for [dox](https://github.com/tj/dox). Takes dox's JSON output as stdin
+ * and writes Markdown to stdout.
+ *
+ * ## usage
+ *
+ *     dox -r < index.js | doxme
+ *
+ * @module doxme
+ */
 process.stdin.pipe(concat(function(json) {
+    var pkg;
+
+    if (argv.readme) {
+        pkg = JSON.parse(fs.readFileSync('package.json'));
+        var hasTravis = fs.existsSync('.travis.yml');
+
+        console.log('# ' + pkg.name + '\n');
+
+        if (hasTravis) {
+            var orgRepo = pkg.repository.url.match(/([^(.|\/|:)]+)\/([^(.|\/|:)]+).git$/);
+            var org = orgRepo[1], repo = orgRepo[2];
+            console.log('[![build status](https://secure.travis-ci.org/%s/%s.png)](http://travis-ci.org/%s/%s)\n',
+                 org, repo, org, repo);
+        }
+
+        console.log(pkg.description + '\n');
+    }
+
     var data = JSON.parse(json);
     data.forEach(function(d) {
         var alias, returns;
@@ -19,7 +50,11 @@ process.stdin.pipe(concat(function(json) {
             var args = getTags(d.tags, 'param').map(function(p) {
                 return p.name;
             }).join(', ');
-            console.log('\n### `%s(%s)`\n', name, args);
+            if (args) {
+                console.log('\n### `%s(%s)`\n', name, args);
+            } else {
+                console.log('\n### `%s`\n', name);
+            }
             if (d.description) {
                 console.log('%s\n', reformat(d.description.full));
             }
@@ -36,6 +71,16 @@ process.stdin.pipe(concat(function(json) {
             if (returns = getTag(d.tags, 'returns')) {
                 console.log('\n**Returns** `%s`, %s\n', returns.types.join(','), reformat(returns.description));
             }
+        }
+
+        if (argv.readme) {
+            console.log('## Installation\n');
+            console.log('Requires [nodejs](http://nodejs.org/).\n');
+            console.log('```sh\n$ npm install ' + pkg.name + '\n```\n');
+        }
+
+        if (argv.readme && pkg.scripts && pkg.scripts.test) {
+            console.log('## Tests\n\n```sh\n$ npm test\n```\n');
         }
     });
 }));

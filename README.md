@@ -1,17 +1,31 @@
 # doxme
 
+create markdown docs for dox output
+
+[![build status](https://secure.travis-ci.org/tmcw/doxme.png)](http://travis-ci.org/tmcw/doxme)
+
+### `doxme`
+
 A [Markdown](http://daringfireball.net/projects/markdown/) formatter
 for [dox](https://github.com/tj/dox). Takes dox's JSON output as stdin
 and writes Markdown to stdout.
 
-## install
+## usage
 
-    npm install -g doxme
+    dox -r < index.js | doxme
 
-## use
 
-    dox < index.js | doxme
+## Installation
 
-## examples
+Requires [nodejs](http://nodejs.org/).
 
-* [tile-cover documentation](https://github.com/mapbox/tile-cover#api)
+```sh
+$ npm install doxme
+```
+
+## Tests
+
+```sh
+$ npm test
+```
+
