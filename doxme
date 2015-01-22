@@ -72,8 +72,8 @@ process.stdin.pipe(concat(function(json) {
                     [['parameter', 'type', 'description']]
                         .concat(params.map(function(p) {
                             return ['`' + p.name + '`', p.types.join(','),
-                                (p.optional ? '_optional:_ ' : '') + 
-                                striptags(p.description)];
+                                (p.optional ? '_optional:_ ' : '') +
+                                reformat(p.description)];
                         }))
                 ));
                 console.log('\n');
