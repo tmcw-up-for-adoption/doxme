@@ -91,17 +91,17 @@ process.stdin.pipe(concat(function(json) {
                 console.log('\n**Returns** `%s`, %s\n', returns.types.join(','), reformat(returns.description));
             }
         }
-
-        if (argv.readme) {
-            console.log('## Installation\n');
-            console.log('Requires [nodejs](http://nodejs.org/).\n');
-            console.log('```sh\n$ npm install ' + pkg.name + '\n```\n');
-        }
-
-        if (argv.readme && pkg.scripts && pkg.scripts.test) {
-            console.log('## Tests\n\n```sh\n$ npm test\n```\n');
-        }
     });
+
+    if (argv.readme) {
+        console.log('## Installation\n');
+        console.log('Requires [nodejs](http://nodejs.org/).\n');
+        console.log('```sh\n$ npm install ' + pkg.name + '\n```\n');
+    }
+
+    if (argv.readme && pkg.scripts && pkg.scripts.test) {
+        console.log('## Tests\n\n```sh\n$ npm test\n```\n');
+    }
 }));
 
 function getTags(tags, type) {
