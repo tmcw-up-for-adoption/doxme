@@ -1,6 +1,6 @@
 {
   "name": "doxme",
-  "version": "1.4.3",
+  "version": "1.5.0",
   "description": "create markdown docs for dox output",
   "main": "index.js",
   "bin": {
