@@ -7,7 +7,7 @@
     "doxme": "doxme"
   },
   "scripts": {
-    "doc": "dox -r < doxme | doxme --readme > README.md",
+    "doc": "dox -r < index.js | doxme --readme > README.md",
     "test": "node test.js"
   },
   "keywords": [

@@ -1,117 +1,17 @@
 #!/usr/bin/env node
 
 var concat = require('concat-stream'),
-    striptags = require('striptags'),
-    table = require('markdown-table'),
     argv = require('minimist')(process.argv.slice(1)),
-    fs = require('fs');
+    fs = require('fs'),
+    doxme = require('./index.js');
 
-/**
- * A [Markdown](http://daringfireball.net/projects/markdown/) formatter
- * for [dox](https://github.com/tj/dox). Takes dox's JSON output as stdin
- * and writes Markdown to stdout.
- *
- * ## usage
- *
- *     dox -r < index.js | doxme
- *
- * @module doxme
- * @param {String} [example="foo"] this is just an example parameter
- * @example
- * // this is just an example example
- * var foo = 2 * 2;
- */
 process.stdin.pipe(concat(function(json) {
-    var pkg;
-
+    var data = JSON.parse(json), pkg, hasTravis;
     if (argv.readme) {
         pkg = JSON.parse(fs.readFileSync('package.json'));
-        var hasTravis = fs.existsSync('.travis.yml');
-
-        console.log('# ' + pkg.name + '\n');
-
-        if (hasTravis) {
-            var orgRepo = pkg.repository.url.match(/([^(.|\/|:)]+)\/([^(.|\/|:)]+).git$/);
-            var org = orgRepo[1], repo = orgRepo[2];
-            console.log('[![build status](https://secure.travis-ci.org/%s/%s.png)](http://travis-ci.org/%s/%s)\n',
-                 org, repo, org, repo);
-        }
-
-        console.log(pkg.description + '\n');
-    }
-
-    var data = JSON.parse(json);
-    data.forEach(function(d) {
-        var alias, returns;
-        var name = '', mod;
-        if (alias = getTag(d.tags, 'alias')) {
-            name = alias.string;
-        } else if (mod = getTag(d.tags, 'module')) {
-            name = mod.string.replace('/', '.');
-        } else {
-            name = d.ctx && d.ctx.name;
-        }
-        if (name !== '') {
-            var args = getTags(d.tags, 'param').map(function(p) {
-                return p.name;
-            }).join(', ');
-            if (args) {
-                console.log('\n### `%s(%s)`\n', name, args);
-            } else {
-                console.log('\n### `%s`\n', name);
-            }
-            if (d.description) {
-                console.log('%s\n', reformat(d.description.full));
-            }
-
-            var params = getTags(d.tags, 'param');
-
-            if (params.length) {
-                console.log('### Parameters\n');
-                console.log(table(
-                    [['parameter', 'type', 'description']]
-                        .concat(params.map(function(p) {
-                            return ['`' + p.name + '`', p.types.join(','),
-                                (p.optional ? '_optional:_ ' : '') +
-                                reformat(p.description)];
-                        }))
-                ));
-                console.log('\n');
-            }
-
-            var examples = getTags(d.tags, 'example');
-            if (examples.length) {
-                console.log('### Example');
-                examples.forEach(function(p) {
-                    console.log('\n```js\n%s\n```\n', p.string);
-                });
-            }
-
-            if (returns = getTag(d.tags, 'returns')) {
-                console.log('\n**Returns** `%s`, %s\n', returns.types.join(','), reformat(returns.description));
-            }
-        }
-    });
-
-    if (argv.readme) {
-        console.log('## Installation\n');
-        console.log('Requires [nodejs](http://nodejs.org/).\n');
-        console.log('```sh\n$ npm install ' + pkg.name + '\n```\n');
-    }
-
-    if (argv.readme && pkg.scripts && pkg.scripts.test) {
-        console.log('## Tests\n\n```sh\n$ npm test\n```\n');
+        hasTravis = fs.existsSync('.travis.yml');
+        console.log(doxme(data, argv.readme, pkg, hasTravis));
+    } else {
+        console.log(doxme(data));
     }
 }));
-
-function getTags(tags, type) {
-    return tags.filter(function(t) { return t.type === type; });
-}
-
-function getTag(tags, type) {
-    return tags.filter(function(t) { return t.type === type; })[0];
-}
-
-function reformat(str) {
-    return striptags(str.replace('<br />', ' ').replace(/{\@\w+\s*([^}]+)\s*}/g, '$1'));
-}

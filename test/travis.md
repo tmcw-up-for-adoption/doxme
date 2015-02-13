@@ -7,13 +7,8 @@ create markdown docs for dox output
 
 ### `doxme(dox, readme, package, travis)`
 
-A [Markdown](http://daringfireball.net/projects/markdown/) formatter
-for [dox](https://github.com/tj/dox). Takes dox's JSON output as stdin
-and writes Markdown to stdout.
-
-## usage
-
-    dox -r < index.js | doxme
+A Markdown formatter for dox. Takes dox&#39;s JSON output as stdinand writes Markdown to stdout.usage
+dox -r &lt; index.js | doxme
 
 
 ### Parameters
@@ -49,5 +44,4 @@ $ npm install doxme
 ```sh
 $ npm test
 ```
-
 
