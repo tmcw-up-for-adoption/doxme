@@ -1,8 +1,12 @@
 
 ### `doxme(dox, readme, package, travis)`
 
-A Markdown formatter for dox. Takes dox&#39;s JSON output as stdinand writes Markdown to stdout.usage
+A Markdown formatter for dox. Takes dox&#39;s JSON output as stdinand writes Markdown to stdout.CLI Usage
 dox -r &lt; index.js | doxme
+See Also
+
+gulp-doxme runs doxme within aGulp pipeline
+
 
 
 ### Parameters
@@ -18,8 +22,12 @@ dox -r &lt; index.js | doxme
 ### Example
 
 ```js
-// this is just an example example
-var foo = 2 * 2;
+var fs = require('fs');
+var dox = require('dox');
+var doxme = require('doxme');
+
+var sourceCode = fs.readFileSync('./index.js', 'utf8');
+var documentation = doxme(dox.parseComments(sourceCode));
 ```
 
 
