@@ -11,9 +11,14 @@ A [Markdown](http://daringfireball.net/projects/markdown/) formatter
 for [dox](https://github.com/tj/dox). Takes dox's JSON output as stdin
 and writes Markdown to stdout.
 
-## usage
+## CLI Usage
 
     dox -r < index.js | doxme
+
+## See Also
+
+* [gulp-doxme](https://github.com/tomekwi/gulp-doxme) runs doxme within a
+  [Gulp](http://gulpjs.com/) pipeline
 
 
 ### Parameters
@@ -29,8 +34,12 @@ and writes Markdown to stdout.
 ### Example
 
 ```js
-// this is just an example example
-var foo = 2 * 2;
+var fs = require('fs');
+var dox = require('dox');
+var doxme = require('doxme');
+
+var sourceCode = fs.readFileSync('./index.js', 'utf8');
+var documentation = doxme(dox.parseComments(sourceCode));
 ```
 
 

@@ -10,9 +10,14 @@ var util = require('./util.js'),
  * for [dox](https://github.com/tj/dox). Takes dox's JSON output as stdin
  * and writes Markdown to stdout.
  *
- * ## usage
+ * ## CLI Usage
  *
  *     dox -r < index.js | doxme
+ *
+ * ## See Also
+ *
+ * * [gulp-doxme](https://github.com/tomekwi/gulp-doxme) runs doxme within a
+ *   [Gulp](http://gulpjs.com/) pipeline
  *
  * @module doxme
  * @param {Object} dox the output of dox as a parsed JSON object
@@ -21,8 +26,12 @@ var util = require('./util.js'),
  * @param {boolean} travis whether to output a travis badge along with docs
  * @returns {String} documentation
  * @example
- * // this is just an example example
- * var foo = 2 * 2;
+ * var fs = require('fs');
+ * var dox = require('dox');
+ * var doxme = require('doxme');
+ *
+ * var sourceCode = fs.readFileSync('./index.js', 'utf8');
+ * var documentation = doxme(dox.parseComments(sourceCode));
  */
 
 module.exports = function(dox, readme, pkg, travis) {
