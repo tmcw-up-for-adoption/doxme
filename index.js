@@ -85,7 +85,7 @@ module.exports = function(dox, readme, pkg, travis) {
                 log(table(
                     [['parameter', 'type', 'description']]
                         .concat(params.map(function(p) {
-                            var type = p.typesDescription.substring(0,1) === '{' ?
+                            var type = p.typesDescription.match(/^{/) ?
                                 p.typesDescription.replace(/\|/g, '/') :
                                 p.types.join(',');
                             return ['`' + p.name + '`', type,
