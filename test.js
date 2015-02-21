@@ -29,5 +29,11 @@ test('doxme', function(t) {
         t.equal(readme, fs.readFileSync('test/travis.md', 'utf8'));
         t.end();
     });
+    t.test('@return synonym', function(t) {
+        var result = doxme(dox.parseComments(fs.readFileSync('./test/return.js', 'utf8')));
+        if (process.env.UPDATE) { fs.writeFileSync('test/return.md', result); }
+        t.equal(result, fs.readFileSync('test/return.md', 'utf8'));
+        t.end();
+    });
     t.end();
 });

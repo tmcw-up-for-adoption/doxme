@@ -101,7 +101,7 @@ module.exports = function(dox, readme, pkg, travis) {
                 });
             }
 
-            if (returns = getTag(d.tags, 'returns')) {
+            if (returns = getTag(d.tags, 'returns') || getTag(d.tags, 'return')) {
                 log('\n**Returns** `%s`, %s\n', returns.types.join(','), reformat(returns.description));
             }
         }
