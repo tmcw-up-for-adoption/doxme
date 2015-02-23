@@ -35,5 +35,11 @@ test('doxme', function(t) {
         t.equal(result, fs.readFileSync('test/return.md', 'utf8'));
         t.end();
     });
+    t.test('@function tag', function(t) {
+        var result = doxme(dox.parseComments(fs.readFileSync('./test/function.js', 'utf8')));
+        if (process.env.UPDATE) { fs.writeFileSync('test/function.md', result); }
+        t.equal(result, fs.readFileSync('test/function.md', 'utf8'));
+        t.end();
+    });
     t.end();
 });
