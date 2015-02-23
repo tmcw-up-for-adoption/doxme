@@ -58,7 +58,7 @@ module.exports = function(dox, readme, pkg, travis) {
     dox.forEach(function(d) {
         var alias, returns;
         var name = '', mod;
-        if (alias = getTag(d.tags, 'alias')) {
+        if (alias = getTag(d.tags, ['alias', 'function', 'func', 'method'])) {
             name = alias.string;
         } else if (mod = getTag(d.tags, 'module')) {
             name = mod.string.replace('/', '.');
