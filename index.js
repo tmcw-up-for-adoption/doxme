@@ -57,14 +57,15 @@ module.exports = function(dox, readme, pkg, travis) {
     }
 
     dox.forEach(function(d) {
-        var returns, access;
         var access = getTag(d.tags, 'access');
         // do not generate documentation for private members
         if (access && access.string === 'private') return;
-        var name = '', mod;
-        if (alias = getTag(d.tags, ['alias', 'function', 'func', 'method'])) {
+        var name = '';
+        var alias = getTag(d.tags, ['alias', 'function', 'func', 'method']);
+        var mod = getTag(d.tags, 'module');
+        if (alias) {
             name = alias.string;
-        } else if (mod = getTag(d.tags, 'module')) {
+        } else if (mod) {
             name = mod.string.replace('/', '.');
         } else {
             name = d.ctx && d.ctx.name;
@@ -108,7 +109,8 @@ module.exports = function(dox, readme, pkg, travis) {
                 });
             }
 
-            if (returns = getTag(d.tags, ['returns', 'return'])) {
+            var returns = getTag(d.tags, ['returns', 'return']);
+            if (returns) {
                 log('\n**Returns** `%s`, %s\n', returns.types.join(','), reformat(returns.description));
             }
         }
