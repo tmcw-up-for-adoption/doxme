@@ -47,5 +47,11 @@ test('doxme', function(t) {
         t.equal(result, fs.readFileSync('test/params.md', 'utf8'));
         t.end();
     });
+    t.test('private', function(t) {
+        var result = doxme(dox.parseComments(fs.readFileSync('./test/private.js', 'utf8')));
+        if (process.env.UPDATE) { fs.writeFileSync('test/private.md', result); }
+        t.equal(result, fs.readFileSync('test/private.md', 'utf8'));
+        t.end();
+    });
     t.end();
 });

@@ -57,7 +57,10 @@ module.exports = function(dox, readme, pkg, travis) {
     }
 
     dox.forEach(function(d) {
-        var alias, returns;
+        var returns, access;
+        var access = getTag(d.tags, 'access');
+        // do not generate documentation for private members
+        if (access && access.string === 'private') return;
         var name = '', mod;
         if (alias = getTag(d.tags, ['alias', 'function', 'func', 'method'])) {
             name = alias.string;
