@@ -25,3 +25,7 @@ module.exports.getTag = function getTag (tags, type) {
 module.exports.reformat = function(str) {
     return striptags(str.replace('<br />', ' ').replace(/{\@\w+\s*([^}]+)\s*}/g, '$1'));
 };
+
+module.exports.escape = function(str) {
+    return str.replace(/([\\`*_{}\[\]()<>#+-.!])/g, '\\$1');
+};
