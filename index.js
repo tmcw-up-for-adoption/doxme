@@ -1,6 +1,7 @@
 var util = require('./util.js'),
     table = require('markdown-table'),
     reformat = util.reformat,
+    escape = util.escape,
     getTag = util.getTag,
     getTags = util.getTags,
     u = require('util');
@@ -87,7 +88,7 @@ module.exports = function(dox, readme, pkg, travis) {
                         .concat(params.map(function(p) {
                             var type = p.typesDescription.match(/^{/) ?
                                 p.typesDescription.replace(/\|/g, '/') :
-                                p.types.join(',');
+                                escape(p.types.join(','));
                             return ['`' + p.name + '`', type,
                                 (p.optional ? '_optional:_ ' : '') +
                                 reformat(p.description)];

@@ -41,5 +41,11 @@ test('doxme', function(t) {
         t.equal(result, fs.readFileSync('test/function.md', 'utf8'));
         t.end();
     });
+    t.test('params', function(t) {
+        var result = doxme(dox.parseComments(fs.readFileSync('./test/params.js', 'utf8')));
+        if (process.env.UPDATE) { fs.writeFileSync('test/params.md', result); }
+        t.equal(result, fs.readFileSync('test/params.md', 'utf8'));
+        t.end();
+    });
     t.end();
 });
