@@ -5,8 +5,13 @@ create markdown docs for dox output
 
 ### `doxme(dox, readme, package, travis)`
 
-A Markdown formatter for dox. Takes dox&#39;s JSON output as stdinand writes Markdown to stdout.CLI Usage
+A Markdown formatter for dox. Takes dox&#39;s JSON output as stdinand writes Markdown to stdout.
+Generates API documentation as well as entire READMEs (like this one!)
+README generation supports Travis-CI badges
+
+CLI Usage
 dox -r &lt; index.js | doxme
+The doxme bin supports one important option: --readme. Whenprovided, it generates a full README.md file, including title,description, installation and test instructions, and aTravis-CI badge if the project is testedwith travis.dox -r &lt; index.js | doxme --readme &gt; README.md
 See Also
 
 gulp-doxme runs doxme within aGulp pipeline

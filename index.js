@@ -11,9 +11,20 @@ var util = require('./util.js'),
  * for [dox](https://github.com/tj/dox). Takes dox's JSON output as stdin
  * and writes Markdown to stdout.
  *
+ * * Generates API documentation as well as entire READMEs (like this one!)
+ * * README generation supports [Travis-CI](https://travis-ci.org/) badges
+ *
  * ## CLI Usage
  *
  *     dox -r < index.js | doxme
+ *
+ * The `doxme` bin supports one important option: `--readme`. When
+ * provided, it generates a full README.md file, including title,
+ * description, installation and test instructions, and a
+ * [Travis-CI](https://travis-ci.org/) badge if the project is tested
+ * with travis.
+ *
+ *     dox -r < index.js | doxme --readme > README.md
  *
  * ## See Also
  *
