@@ -1,4 +1,5 @@
 var util = require('./util.js'),
+    repoPathParse = require('repo-path-parse'),
     table = require('markdown-table'),
     reformat = util.reformat,
     escape = util.escape,
@@ -58,10 +59,9 @@ module.exports = function(dox, readme, pkg, travis) {
         log('# ' + pkg.name + '\n');
 
         if (travis) {
-            var orgRepo = pkg.repository.url.match(/([^(.|\/|:)]+)\/([^(.|\/|:)]+).git$/);
-            var org = orgRepo[1], repo = orgRepo[2];
+            var repoInfo = repoPathParse(pkg.repository.url);
             log('[![build status](https://secure.travis-ci.org/%s/%s.png)](http://travis-ci.org/%s/%s)\n',
-                 org, repo, org, repo);
+                 repoInfo.owner, repoInfo.repo, repoInfo.owner, repoInfo.repo);
         }
 
         log(pkg.description + '\n');
