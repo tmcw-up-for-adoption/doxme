@@ -1,3 +1,5 @@
+**future work on documentation is going to be [in the documentation project instead of on doxme](https://github.com/documentationjs/documentation): documentation will have a higher level of configurability and compleness than doxme.**
+
 # doxme
 
 [![build status](https://secure.travis-ci.org/tmcw/doxme.png)](http://travis-ci.org/tmcw/doxme)
